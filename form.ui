@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>main</class>
+ <widget class="QMainWindow" name="main">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>main</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuKELOLA_PETANI">
+    <property name="title">
+     <string>KELOLA MENU</string>
+    </property>
+    <addaction name="actionPETANI"/>
+    <addaction name="actionLAHAN"/>
+    <addaction name="actionTANAMAN"/>
+    <addaction name="actionPEMUPUKAN"/>
+    <addaction name="actionPANEN"/>
+   </widget>
+   <addaction name="menuKELOLA_PETANI"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionPETANI">
+   <property name="text">
+    <string>PETANI</string>
+   </property>
+  </action>
+  <action name="actionLAHAN">
+   <property name="text">
+    <string>LAHAN</string>
+   </property>
+  </action>
+  <action name="actionTANAMAN">
+   <property name="text">
+    <string>TANAMAN</string>
+   </property>
+  </action>
+  <action name="actionPEMUPUKAN">
+   <property name="text">
+    <string>PEMUPUKAN</string>
+   </property>
+  </action>
+  <action name="actionPANEN">
+   <property name="text">
+    <string>PANEN</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
