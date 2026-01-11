@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>676</width>
-    <height>640</height>
+    <width>1227</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>90</y>
-     <width>571</width>
+     <x>30</x>
+     <y>100</y>
+     <width>421</width>
      <height>337</height>
     </rect>
    </property>
@@ -41,7 +41,13 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QComboBox" name="CBPetani"/>
+     <widget class="QComboBox" name="CBPetani">
+      <item>
+       <property name="text">
+        <string>--- Pilih ---</string>
+       </property>
+      </item>
+     </widget>
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="namaTanamanLabel">
@@ -51,7 +57,13 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QComboBox" name="CBTanaman"/>
+     <widget class="QComboBox" name="CBTanaman">
+      <item>
+       <property name="text">
+        <string>--- Pilih ---</string>
+       </property>
+      </item>
+     </widget>
     </item>
     <item row="3" column="0">
      <widget class="QLabel" name="jenisPupukLabel">
@@ -151,9 +163,9 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>100</x>
      <y>40</y>
-     <width>571</width>
+     <width>1031</width>
      <height>20</height>
     </rect>
    </property>
@@ -173,11 +185,107 @@
   <widget class="QTableWidget" name="tblPemupukan">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>440</y>
-     <width>591</width>
-     <height>192</height>
+     <x>480</x>
+     <y>160</y>
+     <width>721</width>
+     <height>211</height>
     </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Nama Petani</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Nama Tanaman</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Jenis Pupuk</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Tanggal</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Jumlah (kg)</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Keterangan</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="btnCetak">
+   <property name="geometry">
+    <rect>
+     <x>1080</x>
+     <y>400</y>
+     <width>111</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cetak</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboFilter">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>400</y>
+     <width>211</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Semua</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Urea</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>NPK</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Kandang</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Organik</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLineEdit" name="lineCari">
+   <property name="geometry">
+    <rect>
+     <x>722</x>
+     <y>110</y>
+     <width>481</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Cari berdasarkan ID/Nama Petani/Nama Tanaman/Jenis Pupuk....</string>
    </property>
   </widget>
  </widget>

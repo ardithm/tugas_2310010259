@@ -22,6 +22,9 @@ class tanaman(QWidget):
         self.formtanaman.btnHapus.clicked.connect(self.hapusTanaman)
         self.formtanaman.btnBatal.clicked.connect(self.batalTanaman)
 
+        self.formtanaman.lineCari.textChanged.connect(self.cariDataTanaman)
+        self.formtanaman.btnCetak.clicked.connect(self.laporanTanaman)
+
         self.formtanaman.tblTanaman.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.formtanaman.tblTanaman.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.formtanaman.tblTanaman.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -30,24 +33,26 @@ class tanaman(QWidget):
         self.tampilTanaman()
 
     def simpanTanaman(self):
-        idt = self.formtanaman.editId.text()
-        nama = self.formtanaman.editNama.text()
-        jenis = self.formtanaman.CBJenis.currentText()
-        masa = self.formtanaman.SBMasa.value()
-        musim = self.formtanaman.CBMusim.currentText()
-        ket = self.formtanaman.editKet.toPlainText()
+        if not self.formtanaman.editId.text().strip():
+            QMessageBox.information(None, "Informasi", "ID Tanaman belum diisi")
+            self.formtanaman.editId.setFocus()
+        elif not self.formtanaman.editNama.text().strip():
+            QMessageBox.information(None, "Informasi", "Nama Tanaman belum diisi")
+            self.formtanaman.editNama.setFocus()
+        else:
+            idt = self.formtanaman.editId.text()
+            nama = self.formtanaman.editNama.text()
+            jenis = self.formtanaman.CBJenis.currentText()
+            masa = self.formtanaman.SBMasa.value()
+            musim = self.formtanaman.CBMusim.currentText()
+            ket = self.formtanaman.editKet.toPlainText()
 
-        if not idt or not nama or not jenis:
-            QMessageBox.warning(self, "Peringatan", "Semua field wajib diisi!")
-            return
-
-        try:
             self.aksi.tambahTanaman(idt, nama, jenis, masa, musim, ket)
-            QMessageBox.information(self, "Sukses", "Data tanaman berhasil ditambahkan.")
             self.tampilTanaman()
             self.batalTanaman()
-        except Exception as e:
-            QMessageBox.warning(self, "Error", f"Gagal menambah data!\n{e}")
+
+            QMessageBox.information(None, "Informasi", "Data tanaman berhasil disimpan")
+
 
     def ubahTanaman(self):
         idt = self.formtanaman.editId.text()
@@ -57,31 +62,28 @@ class tanaman(QWidget):
         musim = self.formtanaman.CBMusim.currentText()
         ket = self.formtanaman.editKet.toPlainText()
 
-        if not idt:
-            QMessageBox.warning(self, "Peringatan", "Pilih data yang ingin diubah!")
-            return
+        self.aksi.ubahTanaman(idt, nama, jenis, masa, musim, ket)
+        self.tampilTanaman()
+        self.batalTanaman()
 
-        try:
-            self.aksi.ubahTanaman(idt, nama, jenis, masa, musim, ket)
-            QMessageBox.information(self, "Sukses", "Data tanaman berhasil diubah.")
-            self.tampilTanaman()
-            self.batalTanaman()
-        except Exception as e:
-            QMessageBox.warning(self, "Error", f"Gagal mengubah data!\n{e}")
+        QMessageBox.information(None, "Informasi", "Data tanaman berhasil diubah")
+
 
     def hapusTanaman(self):
-        idt = self.formtanaman.editId.text()
-        if not idt:
-            QMessageBox.warning(self, "Peringatan", "Pilih data yang ingin dihapus!")
-            return
+        pesan = QMessageBox.information(
+            None,
+            "Informasi",
+            "Apakah yakin menghapus data ini?",
+            QMessageBox.Yes | QMessageBox.No
+        )
 
-        try:
+        if pesan == QMessageBox.Yes:
+            idt = self.formtanaman.editId.text()
             self.aksi.hapusTanaman(idt)
-            QMessageBox.information(self, "Sukses", "Data tanaman berhasil dihapus.")
             self.tampilTanaman()
             self.batalTanaman()
-        except Exception as e:
-            QMessageBox.warning(self, "Error", f"Gagal menghapus data!\n{e}")
+        else:
+            pass
 
     def batalTanaman(self):
         self.formtanaman.editId.clear()
@@ -92,21 +94,20 @@ class tanaman(QWidget):
         self.formtanaman.editKet.clear()
         self.formtanaman.editNama.setFocus()
 
+
     def tampilTanaman(self):
-        aksi = self.aksi.koneksi.cursor()
-        aksi.execute("SELECT * FROM tanaman")
-        hasil = aksi.fetchall()
+        self.formtanaman.tblTanaman.setRowCount(0)
+        data = self.aksi.dataTanaman()
 
-        self.formtanaman.tblTanaman.setRowCount(len(hasil))
-        self.formtanaman.tblTanaman.setColumnCount(6)
-        self.formtanaman.tblTanaman.setHorizontalHeaderLabels(
-            ["ID Tanaman", "Nama Tanaman", "Jenis Tanaman", "Masa Tanam", "Musim Tanam", "Keterangan"]
-        )
+        for i, baris in enumerate(data):
+            self.formtanaman.tblTanaman.insertRow(i)
+            self.formtanaman.tblTanaman.setItem(i, 0, QTableWidgetItem(str(baris["id_tanaman"])))
+            self.formtanaman.tblTanaman.setItem(i, 1, QTableWidgetItem(str(baris["nama_tanaman"])))
+            self.formtanaman.tblTanaman.setItem(i, 2, QTableWidgetItem(str(baris["jenis_tanaman"])))
+            self.formtanaman.tblTanaman.setItem(i, 3, QTableWidgetItem(str(baris["masa_tanam"])))
+            self.formtanaman.tblTanaman.setItem(i, 4, QTableWidgetItem(str(baris["musim_tanam"])))
+            self.formtanaman.tblTanaman.setItem(i, 5, QTableWidgetItem(str(baris["keterangan"])))
 
-        for baris, data in enumerate(hasil):
-            for kolom, nilai in enumerate(data):
-                self.formtanaman.tblTanaman.setItem(baris, kolom, QTableWidgetItem(str(nilai)))
-        aksi.close()
 
     def pilihBaris(self, row, column):
         idt = self.formtanaman.tblTanaman.item(row, 0).text()
@@ -122,3 +123,26 @@ class tanaman(QWidget):
         self.formtanaman.SBMasa.setValue(int(masa))
         self.formtanaman.CBMusim.setCurrentText(musim)
         self.formtanaman.editKet.setPlainText(ket)
+
+
+    def cariDataTanaman(self):
+        varCari = self.formtanaman.lineCari.text()
+        self.formtanaman.tblTanaman.setRowCount(0)
+        data = self.aksi.filterTanaman(varCari)
+
+        for i, baris in enumerate(data):
+            self.formtanaman.tblTanaman.insertRow(i)
+            self.formtanaman.tblTanaman.setItem(i, 0, QTableWidgetItem(str(baris["id_tanaman"])))
+            self.formtanaman.tblTanaman.setItem(i, 1, QTableWidgetItem(str(baris["nama_tanaman"])))
+            self.formtanaman.tblTanaman.setItem(i, 2, QTableWidgetItem(str(baris["jenis_tanaman"])))
+            self.formtanaman.tblTanaman.setItem(i, 3, QTableWidgetItem(str(baris["masa_tanam"])))
+            self.formtanaman.tblTanaman.setItem(i, 4, QTableWidgetItem(str(baris["musim_tanam"])))
+            self.formtanaman.tblTanaman.setItem(i, 5, QTableWidgetItem(str(baris["keterangan"])))
+
+    def laporanTanaman(self):
+        filter = self.formtanaman.comboFilter.currentText()
+
+        if filter == "Semua":
+            self.aksi.cetakTanaman()
+        else:
+            self.aksi.cetakFilterTanaman(filter)

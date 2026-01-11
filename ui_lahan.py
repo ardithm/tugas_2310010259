@@ -24,10 +24,10 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(713, 585)
+        Form.resize(1160, 441)
         self.formLayoutWidget = QWidget(Form)
         self.formLayoutWidget.setObjectName(u"formLayoutWidget")
-        self.formLayoutWidget.setGeometry(QRect(50, 70, 581, 311))
+        self.formLayoutWidget.setGeometry(QRect(20, 70, 451, 311))
         self.formLayout = QFormLayout(self.formLayoutWidget)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setContentsMargins(0, 0, 0, 0)
@@ -121,15 +121,42 @@ class Ui_Form(object):
 
         self.label = QLabel(Form)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(60, 20, 571, 31))
+        self.label.setGeometry(QRect(60, 20, 1031, 31))
         font = QFont()
         font.setPointSize(14)
         font.setBold(True)
         self.label.setFont(font)
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.tblLahan = QTableWidget(Form)
+        if (self.tblLahan.columnCount() < 6):
+            self.tblLahan.setColumnCount(6)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.tblLahan.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.tblLahan.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.tblLahan.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.tblLahan.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tblLahan.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tblLahan.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         self.tblLahan.setObjectName(u"tblLahan")
-        self.tblLahan.setGeometry(QRect(50, 400, 641, 171))
+        self.tblLahan.setGeometry(QRect(500, 130, 641, 191))
+        self.comboFilter = QComboBox(Form)
+        self.comboFilter.addItem("")
+        self.comboFilter.addItem("")
+        self.comboFilter.addItem("")
+        self.comboFilter.addItem("")
+        self.comboFilter.setObjectName(u"comboFilter")
+        self.comboFilter.setGeometry(QRect(801, 340, 201, 28))
+        self.lineCari = QLineEdit(Form)
+        self.lineCari.setObjectName(u"lineCari")
+        self.lineCari.setGeometry(QRect(732, 80, 411, 28))
+        self.btnCetak = QPushButton(Form)
+        self.btnCetak.setObjectName(u"btnCetak")
+        self.btnCetak.setGeometry(QRect(1029, 340, 101, 29))
 
         self.retranslateUi(Form)
 
@@ -153,5 +180,24 @@ class Ui_Form(object):
         self.btnHapus.setText(QCoreApplication.translate("Form", u"Hapus", None))
         self.btnBatal.setText(QCoreApplication.translate("Form", u"Batal", None))
         self.label.setText(QCoreApplication.translate("Form", u" KELOLA DATA LAHAN", None))
+        ___qtablewidgetitem = self.tblLahan.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Form", u"ID", None));
+        ___qtablewidgetitem1 = self.tblLahan.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Form", u"Nama Petani", None));
+        ___qtablewidgetitem2 = self.tblLahan.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Form", u"Lokasi", None));
+        ___qtablewidgetitem3 = self.tblLahan.horizontalHeaderItem(3)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Form", u"Luas", None));
+        ___qtablewidgetitem4 = self.tblLahan.horizontalHeaderItem(4)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Form", u"Jenis Tanah", None));
+        ___qtablewidgetitem5 = self.tblLahan.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Form", u"Keterangan", None));
+        self.comboFilter.setItemText(0, QCoreApplication.translate("Form", u"Semua", None))
+        self.comboFilter.setItemText(1, QCoreApplication.translate("Form", u"Lempung", None))
+        self.comboFilter.setItemText(2, QCoreApplication.translate("Form", u"Gembur", None))
+        self.comboFilter.setItemText(3, QCoreApplication.translate("Form", u"Berpasir", None))
+
+        self.lineCari.setPlaceholderText(QCoreApplication.translate("Form", u"Cari berdasarkan ID/Nama/Lokasi/Jenis Tanah....", None))
+        self.btnCetak.setText(QCoreApplication.translate("Form", u"Cetak", None))
     # retranslateUi
 

@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from PySide6.QtWidgets import QApplication, QWidget, QTableWidgetItem, QAbstractItemView
+from PySide6.QtWidgets import QApplication, QWidget, QTableWidgetItem, QAbstractItemView, QMessageBox
 from PySide6.QtCore import QFile
 from PySide6.QtUiTools import QUiLoader
 from crud import crud_tugas
@@ -20,6 +20,9 @@ class petani(QWidget):
         self.formpetani.btnHapus.clicked.connect(self.hapusPetani)
         self.formpetani.btnBatal.clicked.connect(self.batalPetani)
 
+        self.formpetani.lineCari.textChanged.connect(self.cariDataPetani)
+        self.formpetani.btnCetak.clicked.connect(self.laporanPetani)
+
         self.tampilPetani()
         self.formpetani.tblPetani.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.formpetani.tblPetani.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -28,15 +31,29 @@ class petani(QWidget):
 
 
     def simpanPetani(self):
-        id = self.formpetani.editId.text()
-        nama = self.formpetani.editNama.text()
-        alamat = self.formpetani.editAlamat.text()
-        no_hp = self.formpetani.editNo.text()
-        jenis_kelamin = self.formpetani.CBJk.currentText()
-        umur = self.formpetani.SBUmur.value()
-        self.aksi.tambahPetani(id, nama, alamat, no_hp, jenis_kelamin, umur)
-        self.tampilPetani()
-        self.batalPetani()
+        if not self.formpetani.editId.text().strip():
+            QMessageBox.information(None, "Informasi", "ID Petani belum diisi")
+            self.formpetani.editId.setFocus()
+        elif not self.formpetani.editNama.text().strip():
+            QMessageBox.information(None, "Informasi", "Nama Petani belum diisi")
+            self.formpetani.editNama.setFocus()
+        elif not self.formpetani.editNo.text().strip():
+            QMessageBox.information(None, "Informasi", "No HP belum diisi")
+            self.formpetani.editNo.setFocus()
+        else:
+            id = self.formpetani.editId.text()
+            nama = self.formpetani.editNama.text()
+            alamat = self.formpetani.editAlamat.text()
+            no_hp = self.formpetani.editNo.text()
+            jenis_kelamin = self.formpetani.CBJk.currentText()
+            umur = self.formpetani.SBUmur.value()
+
+            self.aksi.tambahPetani(id, nama, alamat, no_hp, jenis_kelamin, umur)
+            self.tampilPetani()
+            self.batalPetani()
+
+            QMessageBox.information(None, "Informasi", "Data petani berhasil disimpan")
+
 
     def ubahPetani(self):
         id = self.formpetani.editId.text()
@@ -45,15 +62,29 @@ class petani(QWidget):
         no_hp = self.formpetani.editNo.text()
         jenis_kelamin = self.formpetani.CBJk.currentText()
         umur = self.formpetani.SBUmur.value()
+
         self.aksi.ubahPetani(id, nama, alamat, no_hp, jenis_kelamin, umur)
         self.tampilPetani()
         self.batalPetani()
 
+        QMessageBox.information(None, "Informasi", "Data petani berhasil diubah")
+
+
     def hapusPetani(self):
-        id = self.formpetani.editId.text()
-        self.aksi.hapusPetani(id,)
-        self.tampilPetani()
-        self.batalPetani()
+        pesan = QMessageBox.information(
+            None,
+            "Informasi",
+            "Apakah yakin menghapus data ini?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+
+        if pesan == QMessageBox.Yes:
+            id = self.formpetani.editId.text()
+            self.aksi.hapusPetani(id)
+            self.tampilPetani()
+            self.batalPetani()
+        else:
+            pass
 
 
     def batalPetani(self):
@@ -67,19 +98,19 @@ class petani(QWidget):
 
 
     def tampilPetani(self):
-        aksi = self.aksi.koneksi.cursor()
-        aksi.execute("SELECT * FROM petani")
-        hasil = aksi.fetchall()
+        self.formpetani.tblPetani.setRowCount(0)
+        data = self.aksi.dataPetani()
 
-        self.formpetani.tblPetani.setRowCount(len(hasil))
-        self.formpetani.tblPetani.setColumnCount(6)
-        self.formpetani.tblPetani.setHorizontalHeaderLabels(["ID", "Nama", "Alamat", "No HP", "Jenis Kelamin", "Umur"])
+        for i, baris in enumerate(data):
+            self.formpetani.tblPetani.insertRow(i)
+            self.formpetani.tblPetani.setItem(i, 0, QTableWidgetItem(str(baris["id_petani"])))
+            self.formpetani.tblPetani.setItem(i, 1, QTableWidgetItem(str(baris["nama_petani"])))
+            self.formpetani.tblPetani.setItem(i, 2, QTableWidgetItem(str(baris["alamat"])))
+            self.formpetani.tblPetani.setItem(i, 3, QTableWidgetItem(str(baris["no_hp"])))
+            self.formpetani.tblPetani.setItem(i, 4, QTableWidgetItem(str(baris["jenis_kelamin"])))
+            self.formpetani.tblPetani.setItem(i, 5, QTableWidgetItem(str(baris["umur"])))
 
-        for baris, data in enumerate(hasil):
-            for kolom, nilai in enumerate(data):
-                self.formpetani.tblPetani.setItem(baris, kolom, QTableWidgetItem(str(nilai)))
 
-        aksi.close()
 
     def pilihBaris(self, row, column):
         id_petani = self.formpetani.tblPetani.item(row, 0).text()
@@ -95,4 +126,29 @@ class petani(QWidget):
         self.formpetani.editNo.setText(no_hp)
         self.formpetani.CBJk.setCurrentText(jk)
         self.formpetani.SBUmur.setValue(int(umur))
+
+    def cariDataPetani(self):
+        varCari = self.formpetani.lineCari.text()
+        self.formpetani.tblPetani.setRowCount(0)
+        data = self.aksi.filterPetani(varCari)
+
+        for i, baris in enumerate(data):
+            self.formpetani.tblPetani.insertRow(i)
+            self.formpetani.tblPetani.setItem(i, 0, QTableWidgetItem(str(baris["id_petani"])))
+            self.formpetani.tblPetani.setItem(i, 1, QTableWidgetItem(str(baris["nama_petani"])))
+            self.formpetani.tblPetani.setItem(i, 2, QTableWidgetItem(str(baris["alamat"])))
+            self.formpetani.tblPetani.setItem(i, 3, QTableWidgetItem(str(baris["no_hp"])))
+            self.formpetani.tblPetani.setItem(i, 4, QTableWidgetItem(str(baris["jenis_kelamin"])))
+            self.formpetani.tblPetani.setItem(i, 5, QTableWidgetItem(str(baris["umur"])))
+
+    def laporanPetani(self):
+        filter = self.formpetani.comboFilter.currentText()
+
+        if filter == "Semua":
+            self.aksi.cetakPetani()
+        else:
+            self.aksi.cetakFilterPetani(filter)
+
+
+
 
