@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 10, 2025 at 11:54 AM
+-- Generation Time: Jan 12, 2026 at 06:09 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -41,9 +41,9 @@ CREATE TABLE `lahan` (
 --
 
 INSERT INTO `lahan` (`id_lahan`, `id_petani`, `lokasi`, `luas_lahan`, `jenis_tanah`, `keterangan`) VALUES
-(202, 102, 'Blok B3', 99, 'Gembur', 'Lahan subur cocok sayuran'),
-(203, 103, 'Blok C2', 99, 'Berpasir', 'Cocok untuk palawija'),
-(204, 101, 'Blok A1', 20, 'Lempung', 'Bagus');
+(202, 101, 'Blok B3', 99, 'Gembur', 'Lahan subur cocok sayuran'),
+(203, 101, 'Blok C2', 99, 'Berpasir', 'Cocok untuk palawija'),
+(204, 102, 'Blok A1', 20, 'Lempung', 'Bagus');
 
 -- --------------------------------------------------------
 
@@ -66,8 +66,8 @@ CREATE TABLE `panen` (
 --
 
 INSERT INTO `panen` (`id_panen`, `id_petani`, `id_tanaman`, `tanggal_panen`, `jumlah_hasil`, `kualitas`, `keterangan`) VALUES
-(501, 101, 301, '2025-05-25', 1800, 'Bagus', 'Panen sesuai rencana'),
-(502, 102, 302, '2025-06-10', 250, 'Sedang', 'Beberapa terkena hama');
+(1, 102, 301, '2000-01-01', 20, 'Bagus', 'Hasil sangat memuaskan\n'),
+(2, 101, 301, '2026-01-11', 20, 'Buruk', 'Hasil panen terkena kutu dan dimakan tikus');
 
 -- --------------------------------------------------------
 
@@ -90,9 +90,11 @@ CREATE TABLE `pemupukan` (
 --
 
 INSERT INTO `pemupukan` (`id_pemupukan`, `id_petani`, `id_tanaman`, `jenis_pupuk`, `tanggal_pupuk`, `jumlah_kg`, `keterangan`) VALUES
-(401, 101, 301, 'Urea', '2025-02-10', 25, 'Pemupukan awal tanam'),
+(401, 102, 301, 'Urea', '2000-01-01', 21, 'pupuk awal'),
 (402, 101, 301, 'NPK', '2025-03-15', 20, 'Pemupukan susulan'),
-(403, 102, 302, 'Organik', '2025-04-01', 15.5, 'Pupuk kompos alami');
+(403, 102, 302, 'NPK', '2025-04-01', 15, 'Pupuk kompos alami'),
+(404, 103, 302, 'NPK', '2025-09-14', 10, 'bagus'),
+(405, 101, 301, 'Urea', '2026-01-10', 20, 'oke');
 
 -- --------------------------------------------------------
 
@@ -114,7 +116,7 @@ CREATE TABLE `petani` (
 --
 
 INSERT INTO `petani` (`id_petani`, `nama_petani`, `alamat`, `no_hp`, `jenis_kelamin`, `umur`) VALUES
-(101, 'Budi Santosos', 'Desa Sukamaju, Cianjur', '081234567890', 'Laki-Laki', 42),
+(101, 'Budi Santososl', 'Desa Sukamaju, Cianjur', '081234567890', 'Laki-Laki', 42),
 (102, 'Siti Aminah', 'Desa Cibeber, Cianjur', '081298765432', 'Perempuan', 37),
 (103, 'Rahmat Hidayat', 'Desa Bojong, Cianjur', '082112233445', 'Perempuan', 30);
 
@@ -140,7 +142,7 @@ CREATE TABLE `tanaman` (
 INSERT INTO `tanaman` (`id_tanaman`, `nama_tanaman`, `jenis_tanaman`, `masa_tanam`, `musim_tanam`, `keterangan`) VALUES
 (301, 'Padi Ciherang', 'Palawija', 99, 'Hujan', 'Varietas unggul tahan hama'),
 (302, 'Cabai Merah', 'Sayuran', 90, 'Kemarau', 'Perawatan intensif diperlukan'),
-(303, 'Singkong', 'Palawija', 20, 'Hujan', 'Bagus');
+(303, 'Singkong', 'Palawija', 21, 'Hujan', 'Bagus');
 
 --
 -- Indexes for dumped tables
